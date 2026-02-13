@@ -1,2 +1,1 @@
-# nextJs-course-app-router
-In this course, we'are going to learn Next.js with app-router and  its new solutions.
+**First of all, I seriously recomend you to finish [Page Router course](https://github.com/alirezaAslani-eng/nextJs-course-page-router) before beagining this one. because you will find out the problems of `Page Router` and understand why Next.js released `App Router`**
