@@ -26,3 +26,13 @@ App router
                |-[id]/
                      |-page.tsx
 ```
+
+- now, we can access to dynamic params from component's parameter but it's a Promise and the reason is related to SRC (Server Components) which we will learn later.
+
+```jsx
+import { use } from "react";
+function DynaimcPage({ params }) {
+  const { id } = use(params);
+  return <div>user-id {id}</div>;
+}
+```
