@@ -1,6 +1,8 @@
 **First of all, I seriously recomend you to finish [Page Router course](https://github.com/alirezaAslani-eng/nextJs-course-page-router) before beagining this one. because you will find out the problems of `Page Router` and understand why Next.js released `App Router`**
 
-## Router
+## File System
+
+### App Router folder Structure
 
 - The root folder `page`, now is named as `app`.
 
@@ -35,4 +37,27 @@ function DynaimcPage({ params }) {
   const { id } = use(params);
   return <div>user-id {id}</div>;
 }
+```
+
+### Route Group
+
+Imagine that our project includes a larg scaled **user panel** and an **admin dashboard** but if we create all of them inside the folder `app`, we actually destroy the future of our project.
+
+but Next.js provides a good solution to seprate our pages into several folders that are not going to be a URL sgment.
+
+eaxample :
+
+```
+app/
+   (UserPanel)/
+              |-orders/
+                      |-page.tsx ------ > "/orders"
+```
+
+```
+app/
+   (AdminPanel)/
+               |-admin-panel/
+                            |-payments/
+                                      |-page.tsx ------ > "/admin-panel/payments"
 ```
