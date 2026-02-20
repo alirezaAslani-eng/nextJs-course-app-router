@@ -2,7 +2,7 @@
 
 ## File System
 
-### App Router folder Structure
+### App Router folder structure
 
 - The root folder `page`, now is named as `app`.
 
@@ -60,4 +60,80 @@ app/
                |-admin-panel/
                             |-payments/
                                       |-page.tsx ------ > "/admin-panel/payments"
+```
+
+### Layout and nested layout
+
+before Next.js realesd app router, a shared ui section like navbar, topbar or a complete layout had to be be used at \_app.jsx which was the highest compoent.
+
+but now each route or nested route can have its own layout :
+
+```
+app/
+  |-layout.tsx ----- > the oldest parent layout
+  |-products/
+          |-page.tsx
+          |-[id]/
+                |-layout.js ------- > nested layout
+                |-page.js
+```
+
+**NOTIC**: A nested layout must not use elements like `<html>`, `<body>`, `<head>` or any basic elements that were already existed in the oldest layout.
+
+for example, this throws error :
+
+```jsx
+// -------- app/layout.js --------
+function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <head>
+        <title>fgdfgdf</title>
+      </head>
+      <body>{children}</body>
+    </html>
+  );
+}
+
+// -------- app/products/layout.js --------
+function NestedLayout({ children }) {
+  return (
+    <html lang="en">
+      <body className="...">{children}</body>
+    </html>
+  );
+}
+```
+
+### Route group with layout
+
+When a user dashboard is being developed, it would probably need a complete different design for its layout, but so far we understood that if we create a layout as a nessted one it will be rendered inside the root layout `app/layout.js`, in this case we can use `Route Group` to seperate our layouts without creating a nested route :
+
+```
+app/
+  |-layout.tsx ----- > Basic HTML elements (not shared ui layout)
+  |
+  |-(UserPanel)/
+  |            |-layout.js ------- > shared ui for /tickets, /orders and /carts
+  |            |
+  |            |-tickets/
+  |            |        |-page.tsx
+  |            |
+  |            |-orders/
+  |            |       |-page.tsx
+  |            |
+  |            |-carts/
+  |                   |-page.tsx
+  |
+  |-(AdminDashboard)/
+  |                 |-layout.js ------- > shared ui for /comments, /payments and /add-product
+  |                 |
+  |                 |-comments/
+  |                 |         |-page.tsx
+  |                 |
+  |                 |-payments/
+  |                 |         |-page.tsx
+  |                 |
+  |                 |-add-product/
+  |                              |-page.tsx
 ```
