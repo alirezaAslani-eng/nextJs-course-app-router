@@ -137,3 +137,14 @@ app/
   |                 |-add-product/
   |                              |-page.tsx
 ```
+## Rendering
+
+### Server and Client Components
+
+A summary of **`Server and Client Components`**
+
+- Client Components also renders on server but only static parts of them and cause browser to download js code and run on the client to hydrate the component.
+
+- Server's response descibes everything about Client and Server Components to the client (Browser), by sending a special format of data which is called Payloud and being understood by React.js
+
+To know more, click on [nextjs.org](https://nextjs.org/docs/app/getting-started/server-and-client-components#when-to-use-server-and-client-components)
