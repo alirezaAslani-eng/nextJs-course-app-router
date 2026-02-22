@@ -137,6 +137,7 @@ app/
   |                 |-add-product/
   |                              |-page.tsx
 ```
+
 ## Rendering
 
 ### Server and Client Components
@@ -148,3 +149,60 @@ A summary of **`Server and Client Components`**
 - Server's response descibes everything about Client and Server Components to the client (Browser), by sending a special format of data which is called Payloud and being understood by React.js
 
 To know more, click on [nextjs.org](https://nextjs.org/docs/app/getting-started/server-and-client-components#when-to-use-server-and-client-components)
+
+### Caching
+
+fetch requests can run on the server in SRC components they can make the whole page component a static component (SSG/ISR) or a dynamic component (SSR) based on these following configuration :
+
+**fetch properties** :
+
+- `cache:"force-cache"`
+- `next: { revalidate: 20 }` -> cache data for 20 seconds
+
+#### When RSC works like SSR
+
+This RSC always run on server for each request and then send an HTML template to the client.
+
+```jsx
+async function SSR_ServerComponent() {
+  const res = await fetch("https://jsonplaceholder.typicode.com/comments", {
+    cache: "no-store",
+  });
+
+  const comments = await res.json();
+  return (
+    <div>
+      <ul>
+        {comments.map((comment) => {
+          return <div key={comment.id}>author : {comment.name}</div>;
+        })}
+        <li></li>
+      </ul>
+    </div>
+  );
+}
+```
+
+#### When RSC works like SSG/ISR
+
+This RSC generates a SSG page while build time as a cached html template and it has 20 seconds revalidation, after that duration this component runs on the server when a request happens and generate a new SSG page
+
+```jsx
+async function ISR_ServerComponent() {
+  const res = await fetch("https://jsonplaceholder.typicode.com/comments", {
+    cache: "force-cache",
+    next: { revalidate: 20 },
+  });
+  const comments = await res.json();
+  return (
+    <div>
+      <ul>
+        {comments.map((comment) => {
+          return <div key={comment.id}>author : {comment.name}</div>;
+        })}
+        <li></li>
+      </ul>
+    </div>
+  );
+}
+```
