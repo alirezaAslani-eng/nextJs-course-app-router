@@ -273,3 +273,14 @@ async function page() {
  )
 }
 ```
+
+### loading.jsx
+
+To learn about this concept clilck on [Next.js documentation](https://nextjs.org/docs/app/api-reference/file-conventions/loading)
+
+### error.jsx
+
+In the component hierarchy, `error.js` wraps `loading.js`, `not-found.js`, `page.js`, and nested `layout.js`
+files in a React error boundary. It does not wrap the `layout.js` or `template.js` above it in the same segment.
+To handle errors in the root layout, use **`global-error.js`**.
+To know more click on the link -> [Next.js documentation](https://nextjs.org/docs/app/api-reference/file-conventions/error)
