@@ -217,3 +217,59 @@ Next.js renders a client component on server and then send its boundle file to t
 
 When a client component is used in a server one, we must not passe huge data to it because any prop you pass to a client component in a server component will be a part of client code.
 client components must be `Leaf` as mush as possible, that means older parent compponents like `layout`, `page` better to be a server components to reduce javascript code on client.
+
+### Async components
+
+in React not only next.js, we can have async components like below :
+
+```jsx
+async function AsyncComponent() {
+
+ const res = await fetch(...) // * fetching process ...
+ const data = await res.json()
+
+  return (
+    <div>{data.someProp}</div>
+  )
+}
+
+```
+
+These components are called **React Server Component (RSC)** but in React.js they run on client, ok let's return to Next.js,
+in Next.js (RSC) always run on Server while building or requesting time.
+
+And here is what was preparing to mention : **Suspense**.
+
+In Next.js, with out that option The rendering process will be blocked until all the server components resolve, here is an example :
+
+**Without Suspense** : this won't allow Next.js to render the next components until `ServerComponent1` resolves !
+
+```jsx
+async function page() {
+ return (
+  <>
+    <ServerComponent1>
+
+    <OtherComponents/>
+  </>
+
+ )
+}
+```
+
+**With Suspense** : While `ServerComponent1` is being resolved, `OtherComponents` will render and can be client or server ones, Next.js will send content of fallback prop to client instead of blocking rendring process.
+
+```jsx
+async function page() {
+ return (
+  <>
+  <Suspense fallback="loding">
+    <ServerComponent1>
+  </Suspense>
+
+    <OtherComponents/>
+  </>
+
+ )
+}
+```
