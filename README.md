@@ -29,7 +29,7 @@ App router
                      |-page.tsx
 ```
 
-- now, we can access to dynamic params from component's parameter but it's a Promise and the reason is related to SRC (Server Components) which we will learn later.
+- now, we can access to dynamic params from component's parameter but it's a Promise and the reason is related to RSC (Server Components) which we will learn later.
 
 ```jsx
 import { use } from "react";
@@ -152,7 +152,7 @@ To know more, click on [nextjs.org](https://nextjs.org/docs/app/getting-started/
 
 ### Caching
 
-fetch requests can run on the server in SRC components they can make the whole page component a static component (SSG/ISR) or a dynamic component (SSR) based on these following configuration :
+fetch requests can run on the server in RSC components they can make the whole page component a static component (SSG/ISR) or a dynamic component (SSR) based on these following configuration :
 
 **fetch properties** :
 
@@ -206,3 +206,14 @@ async function ISR_ServerComponent() {
   );
 }
 ```
+
+### Nested Srever & Client Components
+
+#### Server Components in Client Components
+
+Next.js renders a client component on server and then send its boundle file to the client so if we use a server component isnide a client one, all the dependencies from server component will appear in clinet bundle file, in simple words, this cause the server compponent trun into a client one.
+
+#### Client Components in Server Components
+
+When a client component is used in a server one, we must not passe huge data to it because any prop you pass to a client component in a server component will be a part of client code.
+client components must be `Leaf` as mush as possible, that means older parent compponents like `layout`, `page` better to be a server components to reduce javascript code on client.
